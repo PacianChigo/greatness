@@ -1,75 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PacianChigo — Web Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070710;
+  --bg1:#0d0d1a;
+  --bg2:#111122;
+  --bg3:#181830;
+  --border:rgba(255,255,255,0.06);
+  --border2:rgba(255,255,255,0.12);
+  --text:#eeedf9;
+  --muted:rgba(238,237,249,0.5);
+  --faint:rgba(238,237,249,0.24);
+  --cyan:#00e5c3;
+  --cyan-d:rgba(0,229,195,0.1);
+  --cyan-g:rgba(0,229,195,0.2);
+  --violet:#9b87ff;
+  --violet-d:rgba(155,135,255,0.1);
+  --amber:#f59e0b;
+  --font-d:'Syne',sans-serif;
+  --font-b:'DM Sans',sans-serif;
+  --r:10px;--r-lg:18px;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:16px;line-height:1.7;overflow-x:hidden;min-height:100vh}
 
-PacianChigo
-About
-Skills
-Projects
-Contact
-Open to opportunities
-Beginner
-Web Developer
-I build things for the web. Currently learning, growing, and deploying real projects on Vercel.
+/* ─ BG EFFECTS ─ */
+#stars-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.6}
+.blob{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(100px)}
+.blob-a{width:700px;height:450px;top:-200px;left:50%;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(0,229,195,0.06),transparent 70%)}
+.blob-b{width:350px;height:350px;bottom:5%;right:-5%;background:radial-gradient(circle,rgba(155,135,255,0.08),transparent 70%)}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.grid-lines{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 90% 50% at 50% 0%,black 30%,transparent 100%)}
 
-View my skills ↓
-Get in touch
-Who I am
-About me
-💻
-8 Skills
-and growing every day
-🌐
-Live Website
-Deployed on Vercel
-🤖
-Bot Developer
-Telegram & WhatsApp
-🔥
-Self-Taught
-Learning by doing
-Hi! I'm a self-taught developer at the start of my journey. I started with the basics — HTML, CSS, and JavaScript — and I'm now expanding into Python, bots, and full deployment workflows using Git, GitHub, and Vercel. Every line of code I write brings me one step closer to becoming a professional developer.
-What I know
-My skills
-HTML
-Markup
-CSS
-Styling
-JavaScript
-Language
-Python
-Language
-Telegram Bot
-Bot dev
-WhatsApp Bot
-Bot dev
-Git & GitHub
-DevTools
-Vercel
-DevOps
-What I've built
-Projects
-01 — Featured
-★ Featured
-Personal Portfolio Website
-This very website! Built from scratch using pure HTML, CSS, and JavaScript. Deployed live on Vercel via GitHub.
-HTML
-CSS
-JavaScript
-Vercel
-02
-Telegram Bot
-A custom Telegram bot built with Python that automates tasks and responds to user commands.
-Python
-Telegram API
-Bot Development
-03
-WhatsApp Bot
-An automated WhatsApp bot for handling messages and simple interactions using bot libraries.
-JavaScript
-WhatsApp API
-Automation
-Let's connect
-Get in touch
-Let's work together 👋
-I'm always open to learning opportunities, collaborations, or just a friendly chat about tech.
+/* ─ NAV ─ */
+nav{position:sticky;top:0;z-index:200;background:rgba(7,7,16,0.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-in{max-width:800px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:58px}
+.brand{font-family:var(--font-d);font-size:18px;font-weight:800;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px;letter-spacing:-0.02em}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:blink 2.5s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.25}}
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--cyan)}
 
-✉ Send me an email
-Built with ❤️ by PacianChigo  ·  Deployed on Vercel  ·  2026
+/* ─ WRAP ─ */
+.wrap{position:relative;z-index:2;max-width:800px;margin:0 auto;padding:0 28px}
+
+/* ─ HERO ─ */
+.hero{padding:96px 0 80px;text-align:center;animation:fadeUp .8s var(--ease) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--cyan-d);border:1px solid var(--cyan-g);color:var(--cyan);font-size:11px;font-weight:700;padding:6px 16px;border-radius:999px;margin-bottom:30px;letter-spacing:0.1em;text-transform:uppercase}
+.pill-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.6);opacity:0.4}}
+.hero h1{font-family:var(--font-d);font-size:clamp(44px,8.5vw,76px);font-weight:800;line-height:1.04;letter-spacing:-0.04em;color:var(--text);margin-bottom:4px}
+.hero h1 .grad{display:block;background:linear-gradient(100deg,var(--cyan) 0%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-p{font-size:18px;color:var(--muted);max-width:500px;margin:22px auto 40px;font-weight:300;line-height:1.75}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-c{background:var(--cyan);color:#07070f;border:none;padding:13px 28px;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-b);text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform .2s var(--ease),box-shadow .2s;box-shadow:0 0 28px rgba(0,229,195,0.25);letter-spacing:0.01em}
+.btn-c:hover{transform:translateY(-2px);box-shadow:0 0 42px rgba(0,229,195,0.35)}
+.btn-g{background:transparent;color:var(--text);border:1px solid var(--border2);padding:13px 28px;border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font-b);text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,background .2s,transform .2s}
+.btn-g:hover{border-color:var(--cyan);background:var(--cyan-d);transform:translateY(-2px)}
+.scroll-ind{margin-top:56px;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--faint);font-size:11px;letter-spacing:0.1em;text-transform:uppercase}
+.scroll-bar{width:1px;height:40px;background:linear-gradient(var(--cyan),transparent);animation:sb 2s ease infinite}
+@keyframes sb{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ─ DIVIDER ─ */
+.div{height:1px;background:var(--border)}
+
+/* ─ SECTION HEAD ─ */
+.s-eye{font-size:11px;font-weight:700;color:var(--cyan);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px}
+.s-title{font-family:var(--font-d);font-size:clamp(24px,4vw,32px);font-weight:800;color:var(--text);letter-spacing:-0.03em;margin-bottom:32px}
+
+section{padding:72px 0}
+
+/* ─ ABOUT ─ */
+.ag{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:28px}
+.sc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px;display:flex;align-items:center;gap:14px;transition:border-color .2s,transform .2s}
+.sc:hover{border-color:var(--border2);transform:translateY(-3px)}
+.si{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.sv{font-family:var(--font-d);font-size:15px;font-weight:700;color:var(--text)}
+.sd{font-size:12px;color:var(--muted);margin-top:2px}
+.abt{font-size:15px;color:var(--muted);line-height:1.85;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--cyan);border-radius:var(--r-lg);padding:24px 26px;position:relative;overflow:hidden}
+.abt::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+
+/* ─ SKILLS ─ */
+.sk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px}
+.sk{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;display:flex;align-items:center;gap:12px;cursor:default;transition:border-color .2s,background .2s,transform .2s;position:relative;overflow:hidden}
+.sk::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 60%,rgba(255,255,255,0.02));pointer-events:none}
+.sk:hover{border-color:var(--border2);background:var(--bg3);transform:translateY(-3px)}
+.pip{width:9px;height:9px;border-radius:50%;flex-shrink:0;box-shadow:0 0 7px currentColor}
+.sk-n{font-size:13px;font-weight:600;color:var(--text)}
+.sk-c{font-size:11px;color:var(--faint);margin-top:2px}
+
+/* ─ PROJECTS ─ */
+.plist{display:flex;flex-direction:column;gap:16px}
+.pc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px 28px;transition:border-color .2s,transform .2s;position:relative;overflow:hidden}
+.pc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent)}
+.pc:hover{border-color:var(--border2);transform:translateY(-3px)}
+.pc.feat{border-color:rgba(0,229,195,0.22)}
+.pc.feat::before{background:linear-gradient(90deg,transparent,rgba(0,229,195,0.5),transparent)}
+.pc.feat:hover{border-color:rgba(0,229,195,0.4)}
+.pm{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.pn{font-size:11px;color:var(--faint);font-weight:600;letter-spacing:0.08em}
+.pb{font-size:11px;padding:4px 11px;border-radius:999px;background:var(--cyan-d);color:var(--cyan);border:1px solid var(--cyan-g);font-weight:700;letter-spacing:0.04em}
+.pt{font-family:var(--font-d);font-size:19px;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-0.015em}
+.pd{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:16px}
+.tags{display:flex;flex-wrap:wrap;gap:7px}
+.tag{font-size:11px;padding:4px 10px;border-radius:7px;background:var(--bg3);color:var(--faint);border:1px solid var(--border);font-weight:500}
+
+/* ─ CONTACT ─ */
+.ctw{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:52px 40px;text-align:center;position:relative;overflow:hidden}
+.ctw::before{content:'';position:absolute;top:-90px;left:50%;transform:translateX(-50%);width:500px;height:350px;background:radial-gradient(ellipse,rgba(0,229,195,0.07),transparent 70%);pointer-events:none}
+.ctw::after{content:'';position:absolute;bottom:-60px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(155,135,255,0.07),transparent 70%);pointer-events:none}
+.ctw h2{font-family:var(--font-d);font-size:clamp(26px,4vw,38px);font-weight:800;color:var(--text);letter-spacing:-0.03em;margin-bottom:12px;position:relative}
+.ctw p{font-size:16px;color:var(--muted);max-width:440px;margin:0 auto 30px;font-weight:300;position:relative}
+.email-chip{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--cyan);background:var(--cyan-d);border:1px solid var(--cyan-g);padding:8px 18px;border-radius:999px;text-decoration:none;margin-bottom:28px;transition:background .2s;position:relative;font-weight:500}
+.email-chip:hover{background:rgba(0,229,195,0.16)}
+
+/* ─ FOOTER ─ */
+footer{border-top:1px solid var(--border);padding:28px;text-align:center;font-size:12px;color:var(--faint);letter-spacing:0.02em}
+
+/* ─ REVEAL ANIMATIONS ─ */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
+.reveal.on{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+
+/* ─ RESPONSIVE ─ */
+@media(max-width:560px){
+  .nav-links{gap:16px}
+  .ag{grid-template-columns:1fr}
+  .sk-grid{grid-template-columns:repeat(2,1fr)}
+  .ctw{padding:34px 20px}
+  .pc{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+<div class="blob blob-a"></div>
+<div class="blob blob-b"></div>
+<div class="grain"></div>
+<div class="grid-lines"></div>
+
+<nav>
+  <div class="nav-in">
+    <a href="#" class="brand"><span class="brand-dot"></span>PacianChigo</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="pill"><span class="pill-dot"></span>Open to opportunities</div>
+    <h1>Beginner<span class="grad">Web Developer</span></h1>
+    <p class="hero-p">I build things for the web — bots, websites, and tools. Learning every day and deploying real projects on Vercel.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-c">View Projects →</a>
+      <a href="#contact" class="btn-g">Get In Touch</a>
+    </div>
+    <div class="scroll-ind">
+      <span>Scroll</span>
+      <div class="scroll-bar"></div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <section id="about">
+    <div class="reveal"><div class="s-eye">Who I am</div><div class="s-title">About Me</div></div>
+    <div class="ag">
+      <div class="sc reveal d1"><div class="si" style="background:rgba(0,229,195,0.1)">💻</div><div><div class="sv">8 Skills</div><div class="sd">and growing every day</div></div></div>
+      <div class="sc reveal d2"><div class="si" style="background:rgba(155,135,255,0.1)">🌐</div><div><div class="sv">Live Website</div><div class="sd">Deployed on Vercel</div></div></div>
+      <div class="sc reveal d3"><div class="si" style="background:rgba(245,158,11,0.1)">🤖</div><div><div class="sv">Bot Developer</div><div class="sd">Telegram &amp; WhatsApp</div></div></div>
+      <div class="sc reveal d4"><div class="si" style="background:rgba(248,113,113,0.1)">🔥</div><div><div class="sv">Self-Taught</div><div class="sd">Learning by doing</div></div></div>
+    </div>
+    <div class="abt reveal">Hi! I'm a self-taught developer at the start of my journey. I started with the basics — HTML, CSS, and JavaScript — and I'm now expanding into Python, bots, and full deployment workflows using Git, GitHub, and Vercel. Every line of code I write brings me one step closer to becoming a professional developer.</div>
+  </section>
+
+  <div class="div"></div>
+
+  <section id="skills">
+    <div class="reveal"><div class="s-eye">What I know</div><div class="s-title">My Skills</div></div>
+    <div class="sk-grid">
+      <div class="sk reveal d1"><span class="pip" style="background:#f87171;color:#f87171"></span><div><div class="sk-n">HTML</div><div class="sk-c">Markup</div></div></div>
+      <div class="sk reveal d1"><span class="pip" style="background:#a78bfa;color:#a78bfa"></span><div><div class="sk-n">CSS</div><div class="sk-c">Styling</div></div></div>
+      <div class="sk reveal d2"><span class="pip" style="background:#fbbf24;color:#fbbf24"></span><div><div class="sk-n">JavaScript</div><div class="sk-c">Language</div></div></div>
+      <div class="sk reveal d2"><span class="pip" style="background:#34d399;color:#34d399"></span><div><div class="sk-n">Python</div><div class="sk-c">Language</div></div></div>
+      <div class="sk reveal d3"><span class="pip" style="background:#60a5fa;color:#60a5fa"></span><div><div class="sk-n">Telegram Bot</div><div class="sk-c">Bot Dev</div></div></div>
+      <div class="sk reveal d3"><span class="pip" style="background:#00e5c3;color:#00e5c3"></span><div><div class="sk-n">WhatsApp Bot</div><div class="sk-c">Bot Dev</div></div></div>
+      <div class="sk reveal d4"><span class="pip" style="background:#fb923c;color:#fb923c"></span><div><div class="sk-n">Git &amp; GitHub</div><div class="sk-c">DevTools</div></div></div>
+      <div class="sk reveal d4"><span class="pip" style="background:#9b87ff;color:#9b87ff"></span><div><div class="sk-n">Vercel</div><div class="sk-c">DevOps</div></div></div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <section id="projects">
+    <div class="reveal"><div class="s-eye">What I've built</div><div class="s-title">Projects</div></div>
+    <div class="plist">
+      <div class="pc feat reveal d1">
+        <div class="pm"><span class="pn">01 — FEATURED</span><span class="pb">★ Featured</span></div>
+        <div class="pt">Personal Portfolio Website</div>
+        <div class="pd">This very website! Built entirely from scratch with pure HTML, CSS, and JavaScript — no frameworks, no templates. Connected to GitHub and deployed live on Vercel with automatic redeployments on every commit.</div>
+        <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Vercel</span><span class="tag">GitHub</span></div>
+      </div>
+      <div class="pc reveal d2">
+        <div class="pm"><span class="pn">02</span></div>
+        <div class="pt">Telegram Bot</div>
+        <div class="pd">A custom Telegram bot built with Python that automates tasks and responds intelligently to user commands. Demonstrates real-world API integration, async programming, and bot development skills.</div>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Telegram API</span><span class="tag">Bot Development</span><span class="tag">Automation</span></div>
+      </div>
+      <div class="pc reveal d3">
+        <div class="pm"><span class="pn">03</span></div>
+        <div class="pt">WhatsApp Bot</div>
+        <div class="pd">An automated WhatsApp bot built with JavaScript for handling messages and interactions. Showcases cross-platform bot development experience and messaging API integration.</div>
+        <div class="tags"><span class="tag">JavaScript</span><span class="tag">WhatsApp API</span><span class="tag">Automation</span><span class="tag">Node.js</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <section id="contact">
+    <div class="reveal"><div class="s-eye">Let's connect</div><div class="s-title">Get In Touch</div></div>
+    <div class="ctw reveal d1">
+      <h2>Let's Work Together 👋</h2>
+      <p>I'm always open to learning opportunities, collaborations, or just a friendly chat about tech and development.</p>
+      <div><a href="mailto:paciancpa@gmail.com" class="email-chip">✉ paciancpa@gmail.com</a></div>
+      <a href="mailto:paciancpa@gmail.com" class="btn-c">Send Me an Email</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>Built with ❤️ by <strong>PacianChigo</strong> &nbsp;·&nbsp; Deployed on Vercel &nbsp;·&nbsp; 2026</footer>
+
+<script>
+// ── STARS ──
+(function(){
+  const c=document.getElementById('stars-canvas'),ctx=c.getContext('2d');
+  let stars=[];
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
+  function make(){
+    stars=[];
+    const n=Math.floor(c.width*c.height/6500);
+    for(let i=0;i<n;i++)stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.1+0.2,a:Math.random(),sp:Math.random()*0.003+0.001,ph:Math.random()*Math.PI*2});
+  }
+  let t=0;
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);t+=0.01;
+    stars.forEach(s=>{
+      const a=s.a*(0.4+0.6*Math.sin(t*s.sp*100+s.ph));
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${a})`;ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  resize();make();draw();
+  window.addEventListener('resize',()=>{resize();make()});
+})();
+
+// ── SCROLL REVEAL ──
+(function(){
+  const els=document.querySelectorAll('.reveal');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target)}});
+  },{threshold:0.1});
+  els.forEach(el=>obs.observe(el));
+})();
+</script>
+</body>
+</html>
